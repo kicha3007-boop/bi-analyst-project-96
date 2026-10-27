@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Онлайн-школа: сквозная аналитика рекламы</title>
+<style>
+  @page { size: 1280px 720px; margin: 0; }
+  :root {
+    --ink: #1f2933;
+    --muted: #52606d;
+    --accent: #1a85a0;
+    --accent-soft: #e3f3f7;
+    --good: #2f8f5b;
+    --good-soft: #e5f4ec;
+    --warn: #b7791f;
+    --warn-soft: #fbf1df;
+    --bad: #c0392b;
+    --bad-soft: #fbe9e7;
+    --line: #d9e2ec;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #fff; color: var(--ink);
+    font-family: "Inter", "Segoe UI", "DejaVu Sans", Arial, sans-serif; }
+  .slide { width: 1280px; height: 720px; padding: 40px 56px 36px;
+    position: relative; overflow: hidden; page-break-after: always;
+    display: flex; flex-direction: column; }
+  .slide:last-child { page-break-after: auto; }
+  h1 { font-size: 46px; margin: 0 0 18px; line-height: 1.15; }
+  h2 { font-size: 29px; margin: 0 0 16px; color: var(--ink); }
+  h2 small { display: block; font-size: 16px; font-weight: 400;
+    color: var(--muted); margin-top: 6px; }
+  p, li { font-size: 18px; line-height: 1.42; }
+  ul { margin: 0; padding-left: 22px; }
+  li { margin-bottom: 7px; }
+  b { color: var(--accent); }
+  .footer { position: absolute; bottom: 12px; left: 56px; right: 56px;
+    font-size: 12px; color: var(--muted); display: flex;
+    justify-content: space-between; border-top: 1px solid var(--line);
+    padding-top: 7px; }
+  .row { display: flex; gap: 28px; flex: 1; min-height: 0; }
+  .chart { flex: 1.5; display: flex; align-items: flex-start;
+    justify-content: center; min-height: 0; }
+  .chart img { max-width: 100%; max-height: 540px; object-fit: contain;
+    border: 1px solid var(--line); border-radius: 8px; }
+  .notes { flex: 1; background: var(--accent-soft); border-radius: 10px;
+    padding: 18px 22px; }
+  .notes h3 { margin: 0 0 10px; font-size: 17px; text-transform: uppercase;
+    letter-spacing: .04em; color: var(--accent); }
+  .notes li, .notes p { font-size: 16.5px; }
+  .title { justify-content: center; background:
+    linear-gradient(135deg, #0f4c5c 0%, #1a85a0 100%); color: #fff; }
+  .title h1 { font-size: 54px; color: #fff; }
+  .title p { font-size: 22px; color: #e3f3f7; margin: 4px 0; }
+  .title b { color: #fff; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    margin-bottom: 18px; }
+  .kpi { border: 1px solid var(--line); border-radius: 10px;
+    padding: 14px 18px; }
+  .kpi .value { font-size: 34px; font-weight: 700; color: var(--accent); }
+  .kpi .label { font-size: 15px; color: var(--muted); }
+  .link { font-family: Consolas, "DejaVu Sans Mono", monospace;
+    font-size: 16px; background: #f0f4f8; padding: 2px 6px;
+    border-radius: 4px; color: var(--ink); }
+  a.link { text-decoration: none; color: var(--accent); }
+  .cols3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+    flex: 1; }
+  .card { border-radius: 10px; padding: 16px 20px; }
+  .card h3 { margin: 0 0 10px; font-size: 20px; }
+  .card li { font-size: 16px; }
+  .good { background: var(--good-soft); }
+  .good h3 { color: var(--good); }
+  .warn { background: var(--warn-soft); }
+  .warn h3 { color: var(--warn); }
+  .bad { background: var(--bad-soft); }
+  .bad h3 { color: var(--bad); }
+  table.data { border-collapse: collapse; font-size: 15px; width: 100%; }
+  table.data th, table.data td { border-bottom: 1px solid var(--line);
+    padding: 6px 8px; text-align: right; }
+  table.data th:first-child, table.data td:first-child { text-align: left; }
+  table.data th { color: var(--muted); font-weight: 600; }
+  .wide img { max-height: 500px; }
+</style>
+</head>
+<body>
+
+<section class="slide title">
+  <h1>Онлайн-школа: сквозная аналитика рекламы</h1>
+  <p>Какие рекламные каналы окупаются и что делать с бюджетом</p>
+  <p>Период данных: <b>1–30 июня 2023</b>, модель атрибуции <b>Last Paid Click</b></p>
+  <p style="margin-top:40px">Kichigin Sergey · BI-аналитик</p>
+</section>
+
+<section class="slide">
+  <h2>Июнь 2023 в цифрах
+    <small>База marketingdb: визиты (sessions), лиды (leads), расходы VK и Яндекса (vk_ads, ya_ads)</small>
+  </h2>
+  <div class="kpis">
+    <div class="kpi"><div class="value">169 140</div>
+      <div class="label">уникальных посетителей сайта</div></div>
+    <div class="kpi"><div class="value">22,8%</div>
+      <div class="label">из них пришли по платной рекламе (38 567)</div></div>
+    <div class="kpi"><div class="value">1 300</div>
+      <div class="label">лидов всего; 706 — после платного клика</div></div>
+    <div class="kpi"><div class="value">83</div>
+      <div class="label">покупки по платным кликам на 6,27 млн руб.</div></div>
+    <div class="kpi"><div class="value">6,43 млн</div>
+      <div class="label">потрачено на рекламу (Яндекс 5,68 млн, VK 0,75 млн)</div></div>
+    <div class="kpi"><div class="value">+46,5%</div>
+      <div class="label">ROI Яндекса по модели Last Paid Click</div></div>
+    <div class="kpi"><div class="value">+37,6%</div>
+      <div class="label">ROI VK по модели Last Paid Click</div></div>
+    <div class="kpi"><div class="value">25 дней</div>
+      <div class="label">за столько после клика появляются 90% лидов</div></div>
+  </div>
+  <p><b>Дашборд:</b> <a class="link" href="http://localhost:8089/superset/dashboard/online-school/">http://localhost:8089/superset/dashboard/online-school/</a>
+    — Superset проекта (запуск: <span class="link">make up</span>, логин admin / admin). Выгрузка
+    дашборда — <span class="link">superset/export/dashboard.zip</span> в репозитории
+    <a class="link" href="https://github.com/kicha3007-boop/bi-analyst-project-96">github.com/kicha3007-boop/bi-analyst-project-96</a>.</p>
+  <p style="font-size:15px;color:var(--muted)">Метрики: cpu = расходы / визиты, cpl = расходы / лиды,
+    cppu = расходы / покупки, roi = (выручка − расходы) / расходы × 100%.</p>
+  <div class="footer"><span>Онлайн-школа · ключевые показатели</span><span>2</span></div>
+</section>
+
+<section class="slide">
+  <h2>Сколько людей приходит на сайт
+    <small>Уникальные посетители по дням: бесплатный (органика, поиск, ссылки) и платный трафик</small>
+  </h2>
+  <div class="row">
+    <div class="chart"><img src="img/visitors_daily.png" alt="Посетители по дням"></div>
+    <div class="notes">
+      <h3>Что видно</h3>
+      <ul>
+        <li>В обычный день сайт посещают <b>8–10 тыс.</b> человек, в слабые дни — около <b>3–4 тыс.</b></li>
+        <li>Платный трафик ровный: <b>1,2–1,7 тыс.</b> посетителей в день весь месяц.</li>
+        <li>Колебания дают бесплатные визиты: органика сильнее всего в четверг
+          (<b>40 405</b> визитов за месяц) и слабее в воскресенье (<b>18 718</b>).</li>
+        <li>Платная реклама приводит <b>22,8%</b> посетителей — основной поток бесплатный.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>Онлайн-школа · посетители</span><span>3</span></div>
+</section>
+
+<section class="slide">
+  <h2>Какие каналы приводят посетителей
+    <small>Уникальные посетители по неделям, топ-5 источников (utm_source)</small>
+  </h2>
+  <div class="row">
+    <div class="chart"><img src="img/visitors_weekly.png" alt="Посетители по неделям"></div>
+    <div class="notes">
+      <h3>Что видно</h3>
+      <ul>
+        <li>Главный источник — <b>google</b> (бесплатный поиск): 20–29 тыс. посетителей
+          в полную неделю.</li>
+        <li>Из платных — <b>yandex</b> и <b>vk</b>; у остальных платных меток не больше 1,7 тыс.
+          последних платных кликов за месяц.</li>
+        <li>До 12 июня визиты с меткой <b>vk</b> — ~1 200 в день, с меткой <b>yandex</b> — ноль;
+          с 13 июня наоборот: yandex ~1 000 в день, vk ~70.</li>
+        <li>Месячный разрез и доли источников — на дашборде.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>Онлайн-школа · каналы</span><span>4</span></div>
+</section>
+
+<section class="slide">
+  <h2>Сколько мы тратим на рекламу
+    <small>Расходы рекламных кабинетов по неделям, руб.</small>
+  </h2>
+  <div class="row">
+    <div class="chart"><img src="img/cost_weekly.png" alt="Расходы по неделям"></div>
+    <div class="notes">
+      <h3>Что видно</h3>
+      <ul>
+        <li>За июнь потрачено <b>6 428 804 руб.</b>: Яндекс — <b>5 683 798</b> (88%),
+          VK — <b>745 006</b> (12%).</li>
+        <li>Расход ровный весь месяц: <b>180–267 тыс.</b> в день, без запуска с нуля.</li>
+        <li>Яндекс тратил деньги каждый день, но <b>2–12 июня</b> визитов с меткой yandex
+          нет: <b>2 204 261 руб.</b> (39% бюджета Яндекса) не связаны ни с одним визитом.</li>
+        <li>Рекомендация: проверить UTM-разметку объявлений за эти дни.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>Онлайн-школа · расходы</span><span>5</span></div>
+</section>
+
+<section class="slide">
+  <h2>Конверсия: из клика в лид и из лида в оплату
+    <small>Модель Last Paid Click, источники с 500+ визитами</small>
+  </h2>
+  <div class="row">
+    <div class="chart"><img src="img/conversion_by_source.png" alt="Конверсия по источникам"></div>
+    <div class="notes">
+      <h3>Что видно</h3>
+      <ul>
+        <li><b>Яндекс</b> лучше по обоим шагам: <b>2,34%</b> кликов становятся лидами,
+          <b>15,55%</b> лидов покупают.</li>
+        <li><b>VK</b>: клик → лид <b>1,59%</b>, лид → оплата <b>6,05%</b> — лиды VK
+          покупают в 2,6 раза реже.</li>
+        <li>Telegram: 1 633 посетителя, 15 лидов, 1 покупка; admitad и tproger
+          почти не дают лидов.</li>
+        <li>594 из 1 300 лидов пришли без платного клика (органика и другие каналы).</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>Онлайн-школа · конверсия</span><span>6</span></div>
+</section>
+
+<section class="slide">
+  <h2>Когда можно оценивать кампанию
+    <small>Лиды и покупки по дате создания лида (витрина Last Paid Click)</small>
+  </h2>
+  <div class="row">
+    <div class="chart"><img src="img/leads_daily.png" alt="Лиды по дням"></div>
+    <div class="notes">
+      <h3>Что видно</h3>
+      <ul>
+        <li>Между последним платным кликом и лидом проходит в среднем (медиана) <b>14 дней</b>;
+          <b>90% лидов</b> появляются в течение <b>25 дней</b>.</li>
+        <li>Вывод: результаты кампании в дашборде стоит оценивать не раньше чем через
+          <b>~25 дней</b> после запуска, иначе ROI будет занижен.</li>
+        <li>У <b>94,3%</b> лидов (666 из 706) последний платный визит — 1 июня, поэтому
+          динамику лидов смотрим по дате создания лида.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>Онлайн-школа · время до лида</span><span>7</span></div>
+</section>
+
+<section class="slide">
+  <h2>Окупаются ли каналы
+    <small>ROI по utm_source: выручка покупок против расходов с теми же метками и датой</small>
+  </h2>
+  <div class="row">
+    <div class="chart"><img src="img/roi_by_source.png" alt="ROI по источникам"></div>
+    <div class="notes">
+      <h3>Что видно</h3>
+      <ul>
+        <li>По модели окупаются оба платных канала: <b>Яндекс +46,5%</b>
+          (выручка 5,10 млн при расходах 3,48 млн), <b>VK +37,6%</b> (1,02 млн при 0,74 млн).</li>
+        <li>Если учесть все траты кабинета, <b>VK остаётся в плюсе (+37,1%)</b>,
+          а <b>Яндекс уходит в минус (−10,3%)</b> из-за 2,2 млн, потраченных 2–12 июня без визитов.</li>
+        <li>Стоимость покупки близка: cppu Яндекса 51 933, VK 49 463 руб.;
+          лид в VK дешевле (cpl 2 992 против 8 073).</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>Онлайн-школа · окупаемость</span><span>8</span></div>
+</section>
+
+<section class="slide">
+  <h2>Окупаемость по кампаниям
+    <small>ROI по source / medium / campaign для кампаний с расходами</small>
+  </h2>
+  <div class="row">
+    <div class="chart wide"><img src="img/roi_by_campaign.png" alt="ROI по кампаниям"></div>
+    <div class="notes">
+      <h3>Что видно</h3>
+      <ul>
+        <li>Плюс дают <b>11 из 26</b> кампаний.</li>
+        <li>Самая доходная — <b>yandex / freemium</b>: 25 покупок, 1,65 млн выручки, ROI <b>+423%</b>.</li>
+        <li>Самые дорогие кампании Яндекса в минусе: <b>prof-frontend</b> −10% (1,18 млн расходов),
+          <b>prof-python</b> −23%, <b>prof-java</b> −54%.</li>
+        <li>9 кампаний не дали ни одной покупки (ROI −100%).</li>
+        <li>Высокий ROI retarget и dod-php — по <b>1 покупке</b>, выборка мала.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>Онлайн-школа · кампании</span><span>9</span></div>
+</section>
+
+<section class="slide">
+  <h2>Что делать с каналами
+    <small>По метрикам кампаний за июнь 2023 (модель Last Paid Click)</small>
+  </h2>
+  <div class="cols3">
+    <div class="card good">
+      <h3>Не трогать, масштабировать</h3>
+      <ul>
+        <li>yandex / freemium — ROI +423%, 25 покупок</li>
+        <li>yandex / base-python — +354%, 7 покупок</li>
+        <li>yandex / base-frontend — +563%, cpl 1 039</li>
+        <li>vk / freemium-frontend — +329%, 5 покупок</li>
+        <li>vk / prof-python — +145%, 5 покупок</li>
+      </ul>
+    </div>
+    <div class="card warn">
+      <h3>Улучшить</h3>
+      <ul>
+        <li>yandex / prof-frontend — −10%, cpl 16 107 (вдвое дороже среднего по Яндексу)</li>
+        <li>yandex / prof-python — −23%, cppu 114 442</li>
+        <li>yandex / prof-java — −54%, cppu 156 267</li>
+        <li>Пересмотреть ставки и аудитории: эти три кампании съедают 2,6 млн из 3,48 млн</li>
+        <li>Проверить метки Яндекса за 2–12 июня</li>
+      </ul>
+    </div>
+    <div class="card bad">
+      <h3>Отключить</h3>
+      <ul>
+        <li>vk / prof-frontend — 111 479 руб., 0 покупок</li>
+        <li>vk / prof-data-analytics — 106 102 руб., 0 покупок</li>
+        <li>vk / freemium-java — 59 298 руб., 0 покупок</li>
+        <li>vk / freemium-python — −98%, 1 покупка на 1 560 руб.</li>
+        <li>yandex / dod-qa — 16 040 руб., 0 лидов</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>Онлайн-школа · рекомендации</span><span>10</span></div>
+</section>
+
+<section class="slide">
+  <h2>Реклама и органика
+    <small>Есть ли связь между расходами на рекламу и бесплатным трафиком</small>
+  </h2>
+  <div class="row">
+    <div class="chart"><img src="img/cost_daily.png" alt="Расходы по дням"></div>
+    <div class="notes">
+      <h3>Что видно</h3>
+      <ul>
+        <li>Реклама шла весь июнь с ровным бюджетом, момента запуска в данных нет.</li>
+        <li>Корреляция дневных расходов и органических посетителей — <b>0,29</b>: связь слабая.</li>
+        <li>Органика зависит от дня недели (четверг 40 405 визитов, воскресенье 18 718),
+          а не от расходов.</li>
+        <li>Чтобы проверить эффект рекламы на органику, нужен период с паузой
+          или запуском кампании.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>Онлайн-школа · органика</span><span>11</span></div>
+</section>
+
+<section class="slide">
+  <h2>Сводная таблица по источникам
+    <small>Фрагмент дашборда: метрики за выбранный период, фильтры по дате и меткам utm</small>
+  </h2>
+  <div class="chart" style="flex:1"><img src="img/metrics_by_source.png" alt="Сводная таблица" style="max-height:500px"></div>
+  <div class="footer"><span>Онлайн-школа · сводная таблица</span><span>12</span></div>
+</section>
+
+<section class="slide">
+  <h2>Выводы</h2>
+  <ul>
+    <li>Оба платных канала окупаются по модели Last Paid Click: <b>Яндекс +46,5%</b>, <b>VK +37,6%</b>.
+      С учётом всех трат Яндекс в минусе (<b>−10,3%</b>) — главный риск бюджета.</li>
+    <li><b>2,2 млн руб.</b> Яндекса за 2–12 июня не связаны ни с одним визитом: нужно проверить UTM-разметку,
+      иначе часть эффективности не видна.</li>
+    <li>Деньги приносят курсы с бесплатным входом и базовые курсы: yandex / freemium (+423%),
+      base-python, base-frontend, vk / freemium-frontend.</li>
+    <li>Дорогие профессии в Яндексе (frontend, python, java) тратят 2,6 млн и не окупаются — снижать ставки
+      и сужать аудитории.</li>
+    <li>В VK отключить кампании без покупок (prof-frontend, prof-data-analytics, freemium-java) — экономия ~277 тыс. руб. в месяц.</li>
+    <li>Оценивать кампании не раньше чем через <b>25 дней</b>: за это время появляются 90% лидов.</li>
+    <li>Связь рекламы с органикой слабая (корреляция 0,29); органика зависит от дня недели.</li>
+  </ul>
+  <p style="margin-top:14px">Дашборд: <a class="link" href="http://localhost:8089/superset/dashboard/online-school/">http://localhost:8089/superset/dashboard/online-school/</a></p>
+  <div class="footer"><span>Онлайн-школа · выводы</span><span>13</span></div>
+</section>
+
+</body>
+</html>

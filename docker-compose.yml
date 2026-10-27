@@ -1,0 +1,59 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-marketingdb}
+    ports:
+      - "${POSTGRES_PORT:-15433}:5432"
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+      - ./:/project
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      # Проверка по TCP: во время загрузки дампа временный сервер слушает
+      # только unix-сокет, поэтому база не считается готовой раньше времени.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+
+  superset:
+    build:
+      context: ./superset
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-marketingdb}
+      SUPERSET_ADMIN_USER: ${SUPERSET_ADMIN_USER:-admin}
+      SUPERSET_ADMIN_PASSWORD: ${SUPERSET_ADMIN_PASSWORD:-admin}
+      SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY:-local-only-secret-key-change-me}
+    ports:
+      - "${SUPERSET_PORT:-8089}:8088"
+    volumes:
+      - ./superset/export:/app/export
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:8088/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+
+  tools:
+    build:
+      context: ./tools
+    profiles: ["tools"]
+    environment:
+      SUPERSET_URL: http://superset:8088
+      SUPERSET_PUBLIC_URL: http://localhost:${SUPERSET_PORT:-8089}
+      SUPERSET_ADMIN_USER: ${SUPERSET_ADMIN_USER:-admin}
+      SUPERSET_ADMIN_PASSWORD: ${SUPERSET_ADMIN_PASSWORD:-admin}
+    volumes:
+      - ./:/work
+    working_dir: /work
+
+volumes:
+  pgdata:
